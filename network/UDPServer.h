@@ -28,6 +28,7 @@ class UDPServer {
   int UDPServerReceive(char buf[], int length);
 
   int UDPSendto(std::string addr, int port, std::string buf, int length);
+  int UDPSendtoBuf(std::string addr, int port, char* buf, int length);
   /** \brief get sender's address
    * \return sender's address (std::string)
    */

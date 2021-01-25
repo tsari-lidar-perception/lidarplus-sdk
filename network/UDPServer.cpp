@@ -9,6 +9,7 @@ UDPServer::UDPServer(int port) {
   namespace ip = boost::asio::ip;
   socket.reset(new ip::udp::socket(io_service, ip::udp::v4()));
   socket->set_option(boost::asio::socket_base::reuse_address(true));
+  socket->set_option(boost::asio::socket_base::receive_buffer_size(1*1024*1024));
   socket->bind(ip::udp::endpoint(ip::udp::v4(), port));
 }
 UDPServer::~UDPServer() {}
@@ -27,6 +28,13 @@ int UDPServer::UDPSendto(std::string addr, int port, std::string buf,
   boost::asio::ip::udp::endpoint destination(
       boost::asio::ip::address::from_string(addr), port);
   return socket->send_to(boost::asio::buffer(buf.c_str(), length), destination);
+}
+
+int UDPServer::UDPSendtoBuf(std::string addr, int port, char* buf,
+                         int length) {
+  boost::asio::ip::udp::endpoint destination(
+      boost::asio::ip::address::from_string(addr), port);
+  return socket->send_to(boost::asio::buffer(buf, length), destination);
 }
 
 /** \brief get sender's address

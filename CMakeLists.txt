@@ -7,3 +7,4 @@ set(CMAKE_BUILD_TYPE "Release")
 
 add_subdirectory(network)
 add_subdirectory(cpp_sample)
+add_subdirectory(custom_lidar_sample)
