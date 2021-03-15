@@ -1,7 +1,7 @@
 # ECN-SDK
 
 # Prepare
-git clone https://github.com/tsari-ecn/ecn-sdk.git --recurse-submodules
+git clone https://github.com/tsari-lidar-perception/lidarplus-sdk --recurse-submodules
 
 # Requirement
 libboost_thread
