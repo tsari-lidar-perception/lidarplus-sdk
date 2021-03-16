@@ -6,10 +6,10 @@
 
 struct Obstacle_Status
 {
-	uint8_t num_obstacles;
-	uint8_t timestamp;
-	uint8_t relative_timestamp;
-	uint8_t application_version;
+    uint8_t num_obstacles;
+    uint8_t timestamp;
+    uint8_t relative_timestamp;
+    uint8_t application_version;
     uint8_t protocol_version;
     uint8_t close_car;
 };
@@ -17,7 +17,7 @@ struct Obstacle_Status
 struct Obstacle_Data_A
 {
     uint8_t id;
-	float pos_x;
+    float pos_x;
     float pos_y;
     float pos_z;
     float rel_vel_x;
@@ -32,7 +32,7 @@ struct Obstacle_Data_B
     float width;
     float height;
     uint8_t age;
-	uint8_t confidence;
+    uint8_t confidence;
 };
 
 struct Obstacle_Data_C
