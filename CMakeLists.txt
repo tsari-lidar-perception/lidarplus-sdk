@@ -5,6 +5,8 @@ set(CMAKE_C_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "-std=c++11")
 set(CMAKE_BUILD_TYPE "Release")
 
+option(BUILD_ZLGCAN "Build ZLG USB CAN-4E-U sample" OFF)
+
 add_subdirectory(network)
 add_subdirectory(cpp_sample)
 add_subdirectory(custom_lidar_sample)

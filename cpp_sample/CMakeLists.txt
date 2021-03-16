@@ -16,13 +16,31 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 PROTOBUF_GENERATE_CPP(PROTO_SRCS PROTO_HDRS ../proto/detection.proto)
 
-add_executable(recev_detection
-               recev_detection.cpp
+add_library(parse_can SHARED
+            parse_can.cpp
+)
+
+add_executable(recev_detection_udp
+               recev_detection_udp.cpp
                ${PROTO_SRCS}
                ${PROTO_HDRS}
 )
 
-target_link_libraries(recev_detection
+target_link_libraries(recev_detection_udp
                       network_driver
                       ${PROTOBUF_LIBRARIES}
 )
+
+if(${BUILD_ZLGCAN} STREQUAL "ON")
+add_executable(recev_detection_zlgcan
+               recev_detection_zlgcan.cpp
+               ${PROTO_SRCS}
+               ${PROTO_HDRS}
+)
+
+target_link_libraries(recev_detection_zlgcan
+                      parse_can
+                      ${PROTOBUF_LIBRARIES}
+                      usbcan-4e
+)
+endif()
