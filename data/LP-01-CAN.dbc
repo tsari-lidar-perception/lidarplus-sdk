@@ -1,0 +1,98 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+
+BO_ 1387 Obstacle_Data_C: 8 Vector__XXX
+ SG_ Obstacle_Replaced : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Obstacle_Angle_Rate : 0|16@1- (0.01,0) [-327.68|327.67] "degree/s" Vector__XXX
+ SG_ Obstacle_Angle : 48|16@1- (0.01,0) [-327.68|327.67] "degree" Vector__XXX
+ SG_ Object_Accel_X : 32|10@1- (0.03,0) [-14.97|14.97] "m/s2" Vector__XXX
+
+BO_ 1386 Obstacle_Data_B: 8 Vector__XXX
+ SG_ Obstacle_Width : 8|8@1+ (0.05,0) [0|12.75] "m" Vector__XXX
+ SG_ Obstacle_Length : 0|8@1+ (0.12,0) [0|30.6] "m" Vector__XXX
+ SG_ Obstacle_Height : 16|8@1+ (0.05,0) [0|12.75] "m" Vector__XXX
+ SG_ Obstacle_Confidence : 32|8@1+ (1,0) [0|100] "" Vector__XXX
+ SG_ Obstacle_Age : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1385 Obstacle_Data_A: 8 Vector__XXX
+ SG_ Obstacle_Status : 61|3@1+ (1,0) [0|7] "Enum" Vector__XXX
+ SG_ Obstacle_Valid : 56|2@1+ (1,0) [0|3] "Enum" Vector__XXX
+ SG_ Obstacle_Type : 53|3@1+ (1,0) [0|7] "" Vector__XXX
+ SG_ Obstacle_Rel_Vel_X : 40|12@1- (0.0625,0) [-127.93|127.93] "m/s" Vector__XXX
+ SG_ Obstacle_Pos_Z : 32|8@1- (0.0625,0) [-7.93|7.93] "m" Vector__XXX
+ SG_ Obstacle_Pos_Y : 20|12@1- (0.0625,0) [-127.93|127.93] "m" Vector__XXX
+ SG_ Obstacle_Pos_X : 8|12@1- (0.0625,0) [-127.93|127.93] "m" Vector__XXX
+ SG_ Obstacle_ID : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+
+BO_ 1384 Obstacle_Status: 8 Vector__XXX
+ SG_ Timestamp : 8|8@1+ (1,0) [0|255] "ms" Vector__XXX
+ SG_ Relative_Timestamp : 16|8@1+ (1,0) [0|255] "ms" Vector__XXX
+ SG_ Protocol_Version : 32|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Num_Obstacle : 0|8@1+ (1,0) [0|255] "" Vector__XXX
+ SG_ Close_Car : 47|1@1+ (1,0) [0|1] "" Vector__XXX
+ SG_ Application_Version : 24|8@1+ (1,0) [0|255] "" Vector__XXX
+
+
+
+CM_ BO_ 1387 "CAN Message 0x56B + i*3 Details - Obstacle Data C
+Where i = 0 : num_obstacles - 1
+";
+CM_ BO_ 1386 "CAN Message 0x56A + i*3 Details - Obstacle Data B
+Where i = 0 : num_obstacles - 1
+";
+CM_ BO_ 1385 "CAN Message 0x569 + i*3 Details ¨C Obstacle Data A
+Where i = 0 : num_obstacles - 1
+";
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "BusType" "CAN";
+BA_ "DBName" "LP01";
+BA_ "GenSigSendType" SG_ 1384 Application_Version 0;
+
