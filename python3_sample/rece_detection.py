@@ -11,7 +11,7 @@ def main():
     ip_port = ('127.0.0.1', 9000)
     server.bind(ip_port)
     while True:
-        data, peer = server.recvfrom(10240)
+        data, peer = server.recvfrom(26000)
         det = detection_pb2.Detection()
         det.ParseFromString(data)
         print(det)
