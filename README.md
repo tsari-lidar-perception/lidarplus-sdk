@@ -28,5 +28,5 @@ cpp_sample/recev_detection_zlgcan.cpp
 
 # Python3 Sample
 ```shell
-python3_sample/rece_detection.py
+python3_sample/recev_detection.py
 ```
