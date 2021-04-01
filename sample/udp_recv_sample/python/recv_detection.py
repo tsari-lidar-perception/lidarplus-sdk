@@ -4,7 +4,7 @@ import socket
 
 sys.path.append(os.getcwd())
 
-from proto import detection_pb2
+from dependency.proto import detection_pb2
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

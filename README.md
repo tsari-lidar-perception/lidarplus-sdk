@@ -20,13 +20,13 @@ cmake ..
 make -j
 ```
 
-# CPP Sample
+# RUN
+cpp samples
 ```shell
-cpp_sample/recev_detection_udp.cpp
-cpp_sample/recev_detection_zlgcan.cpp
+build/sample/udp_recv_sample/cpp/recv_detection_udp
+build/sample/can_recv_sample/recv_detection_zlgcan
 ```
-
-# Python3 Sample
+python samples
 ```shell
-python3_sample/recev_detection.py
+python3 sample/udp_recv_sample/python/recv_detection.py
 ```
