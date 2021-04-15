@@ -1,1 +1,4 @@
 build/
+sample/ros/.catkin_workspace
+sample/ros/devel/
+sample/ros/src/CMakeLists.txt

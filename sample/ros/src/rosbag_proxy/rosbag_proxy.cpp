@@ -62,6 +62,7 @@ class rosbag_proxy {
         lidarPackage.tail[1] = 'n';
         lidarPackage.frame_id = frame_id;
         int point_num = 0;
+        int package_count = 0;
         for (int index = 0; index < cloud->points.size(); index++) {
             lidarPackage.points_buf[point_num * 4 + 0] = cloud->points[index].x;
             lidarPackage.points_buf[point_num * 4 + 1] = cloud->points[index].y;
@@ -75,9 +76,10 @@ class rosbag_proxy {
                 char buf[1206] = {0};
                 memcpy(buf, &lidarPackage, sizeof(CustomLidarPackage));
                 udp_server->UDPSendtoBuf(device_ip, port, buf, 1206);
-            }
-            if ((index % 1000) == 0) {
-                usleep(100); //avoid buffer overrun
+                package_count++;
+                if ((package_count % 3) == 0) {
+                    usleep(50); //avoid buffer overrun
+                }
             }
         }
         frame_id++;
