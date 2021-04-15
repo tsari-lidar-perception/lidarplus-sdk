@@ -30,3 +30,12 @@ python samples
 ```shell
 python3 sample/udp_recv_sample/python/recv_detection.py
 ```
+
+# ROS Sample
+```shell
+cd sample/ros
+catkin_make
+source devel/setup.bash
+roslaunch rosbag_proxy rosbag_proxy.launch
+rosbag play xxx.bag
+```
