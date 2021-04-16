@@ -64,6 +64,10 @@ class rosbag_proxy {
         int point_num = 0;
         int package_count = 0;
         for (int index = 0; index < cloud->points.size(); index++) {
+            if (!std::isfinite(cloud->points[index].x) || !std::isfinite(cloud->points[index].y) ||
+                !std::isfinite(cloud->points[index].z) || !std::isfinite(cloud->points[index].intensity)) {
+                continue;
+            }
             lidarPackage.points_buf[point_num * 4 + 0] = cloud->points[index].x;
             lidarPackage.points_buf[point_num * 4 + 1] = cloud->points[index].y;
             lidarPackage.points_buf[point_num * 4 + 2] = cloud->points[index].z;
