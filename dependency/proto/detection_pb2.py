@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto2',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0f\x64\x65tection.proto\"9\n\x07Point3D\x12\x0e\n\x01x\x18\x01 \x01(\x01:\x03nan\x12\x0e\n\x01y\x18\x02 \x01(\x01:\x03nan\x12\x0e\n\x01z\x18\x03 \x01(\x01:\x03nan\"a\n\x05\x42ox3D\x12\x18\n\x06\x63\x65nter\x18\x01 \x01(\x0b\x32\x08.Point3D\x12\x0e\n\x06length\x18\x02 \x01(\x02\x12\r\n\x05width\x18\x03 \x01(\x02\x12\x0e\n\x06height\x18\x04 \x01(\x02\x12\x0f\n\x07heading\x18\x05 \x01(\x02\"H\n\x06Header\x12\x0f\n\x07version\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\x12\x1a\n\x12relative_timestamp\x18\x03 \x01(\x04\"\xe9\x02\n\x06Object\x12\n\n\x02id\x18\x01 \x01(\r\x12\x1a\n\x04type\x18\x02 \x01(\x0e\x32\x0c.Object.Type\x12\x12\n\nconfidence\x18\x03 \x01(\x02\x12\x13\n\x03\x62ox\x18\x04 \x01(\x0b\x32\x06.Box3D\x12\x12\n\nvelocity_x\x18\x05 \x01(\x02\x12\x12\n\nvelocity_y\x18\x06 \x01(\x02\x12\x12\n\nangle_rate\x18\x07 \x01(\x02\x12\x0f\n\x07\x61\x63\x63\x65l_x\x18\x08 \x01(\x02\x12\r\n\x05valid\x18\t \x01(\x08\x12\x1e\n\x06status\x18\n \x01(\x0e\x32\x0e.Object.Status\x12\x0b\n\x03\x61ge\x18\x0b \x01(\r\"G\n\x04Type\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0b\n\x07VEHICLE\x10\x01\x12\x0e\n\nPEDESTRIAN\x10\x02\x12\x0b\n\x07\x43YCLIST\x10\x03\x12\x08\n\x04\x43ONE\x10\x04\"<\n\x06Status\x12\r\n\tUNDEFINED\x10\x00\x12\n\n\x06STATIC\x10\x01\x12\x0b\n\x07STOPPED\x10\x02\x12\n\n\x06MOVING\x10\x03\"\x1b\n\x04\x43\x65ll\x12\x13\n\x0bis_passable\x18\x01 \x01(\x08\"\x9b\x01\n\rFreespaceInfo\x12\r\n\x05x_min\x18\x01 \x01(\x02\x12\r\n\x05x_max\x18\x02 \x01(\x02\x12\r\n\x05y_min\x18\x03 \x01(\x02\x12\r\n\x05y_max\x18\x04 \x01(\x02\x12\r\n\x05z_min\x18\x05 \x01(\x02\x12\r\n\x05z_max\x18\x06 \x01(\x02\x12\x12\n\nresolution\x18\x07 \x01(\x02\x12\r\n\x05x_num\x18\x08 \x01(\x03\x12\r\n\x05y_num\x18\t \x01(\x03\"?\n\tFreespace\x12\x1c\n\x04info\x18\x01 \x01(\x0b\x32\x0e.FreespaceInfo\x12\x14\n\x05\x63\x65lls\x18\x02 \x03(\x0b\x32\x05.Cell\"`\n\tDetection\x12\x17\n\x06header\x18\x01 \x01(\x0b\x32\x07.Header\x12\x17\n\x06object\x18\x02 \x03(\x0b\x32\x07.Object\x12\x11\n\tfreespace\x18\x03 \x01(\x0c\x12\x0e\n\x06points\x18\x04 \x01(\x0c'
+  serialized_pb=b'\n\x0f\x64\x65tection.proto\"9\n\x07Point3D\x12\x0e\n\x01x\x18\x01 \x01(\x01:\x03nan\x12\x0e\n\x01y\x18\x02 \x01(\x01:\x03nan\x12\x0e\n\x01z\x18\x03 \x01(\x01:\x03nan\"a\n\x05\x42ox3D\x12\x18\n\x06\x63\x65nter\x18\x01 \x01(\x0b\x32\x08.Point3D\x12\x0e\n\x06length\x18\x02 \x01(\x02\x12\r\n\x05width\x18\x03 \x01(\x02\x12\x0e\n\x06height\x18\x04 \x01(\x02\x12\x0f\n\x07heading\x18\x05 \x01(\x02\"\x82\x01\n\nTrajectory\x12\t\n\x01x\x18\x01 \x01(\x01\x12\t\n\x01y\x18\x02 \x01(\x01\x12\t\n\x01z\x18\x03 \x01(\x01\x12\x0f\n\x07heading\x18\x04 \x01(\x02\x12\x12\n\nvelocity_x\x18\x05 \x01(\x02\x12\x12\n\nvelocity_y\x18\x06 \x01(\x02\x12\x1a\n\x12relative_timestamp\x18\x07 \x01(\x04\"H\n\x06Header\x12\x0f\n\x07version\x18\x01 \x01(\x0c\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\x12\x1a\n\x12relative_timestamp\x18\x03 \x01(\x04\"\x8a\x03\n\x06Object\x12\n\n\x02id\x18\x01 \x01(\r\x12\x1a\n\x04type\x18\x02 \x01(\x0e\x32\x0c.Object.Type\x12\x12\n\nconfidence\x18\x03 \x01(\x02\x12\x13\n\x03\x62ox\x18\x04 \x01(\x0b\x32\x06.Box3D\x12\x12\n\nvelocity_x\x18\x05 \x01(\x02\x12\x12\n\nvelocity_y\x18\x06 \x01(\x02\x12\x12\n\nangle_rate\x18\x07 \x01(\x02\x12\x0f\n\x07\x61\x63\x63\x65l_x\x18\x08 \x01(\x02\x12\r\n\x05valid\x18\t \x01(\x08\x12\x1e\n\x06status\x18\n \x01(\x0e\x32\x0e.Object.Status\x12\x0b\n\x03\x61ge\x18\x0b \x01(\r\x12\x1f\n\ntrajectory\x18\x0c \x03(\x0b\x32\x0b.Trajectory\"G\n\x04Type\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0b\n\x07VEHICLE\x10\x01\x12\x0e\n\nPEDESTRIAN\x10\x02\x12\x0b\n\x07\x43YCLIST\x10\x03\x12\x08\n\x04\x43ONE\x10\x04\"<\n\x06Status\x12\r\n\tUNDEFINED\x10\x00\x12\n\n\x06STATIC\x10\x01\x12\x0b\n\x07STOPPED\x10\x02\x12\n\n\x06MOVING\x10\x03\"\x1b\n\x04\x43\x65ll\x12\x13\n\x0bis_passable\x18\x01 \x01(\x08\"\x9b\x01\n\rFreespaceInfo\x12\r\n\x05x_min\x18\x01 \x01(\x02\x12\r\n\x05x_max\x18\x02 \x01(\x02\x12\r\n\x05y_min\x18\x03 \x01(\x02\x12\r\n\x05y_max\x18\x04 \x01(\x02\x12\r\n\x05z_min\x18\x05 \x01(\x02\x12\r\n\x05z_max\x18\x06 \x01(\x02\x12\x12\n\nresolution\x18\x07 \x01(\x02\x12\r\n\x05x_num\x18\x08 \x01(\x03\x12\r\n\x05y_num\x18\t \x01(\x03\"?\n\tFreespace\x12\x1c\n\x04info\x18\x01 \x01(\x0b\x32\x0e.FreespaceInfo\x12\x14\n\x05\x63\x65lls\x18\x02 \x03(\x0b\x32\x05.Cell\"1\n\x0b\x43\x61meraImage\x12\x13\n\x0b\x63\x61mera_name\x18\x01 \x01(\t\x12\r\n\x05image\x18\x02 \x01(\x0c\"r\n\x0bRadarObject\x12\n\n\x02id\x18\x01 \x01(\r\x12\x1a\n\x04type\x18\x02 \x01(\x0e\x32\x0c.Object.Type\x12\x13\n\x03\x62ox\x18\x03 \x01(\x0b\x32\x06.Box3D\x12\x12\n\nvelocity_x\x18\x04 \x01(\x02\x12\x12\n\nvelocity_y\x18\x05 \x01(\x02\"?\n\x05Radar\x12\x12\n\nradar_name\x18\x01 \x01(\t\x12\"\n\x0cradar_object\x18\x02 \x03(\x0b\x32\x0c.RadarObject\"\x94\x01\n\tDetection\x12\x17\n\x06header\x18\x01 \x01(\x0b\x32\x07.Header\x12\x17\n\x06object\x18\x02 \x03(\x0b\x32\x07.Object\x12\x11\n\tfreespace\x18\x03 \x01(\x0c\x12\x0e\n\x06points\x18\x04 \x01(\x0c\x12\x1b\n\x05image\x18\x05 \x03(\x0b\x32\x0c.CameraImage\x12\x15\n\x05radar\x18\x06 \x03(\x0b\x32\x06.Radar'
 )
 
 
@@ -59,8 +59,8 @@ _OBJECT_TYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=480,
-  serialized_end=551,
+  serialized_start=646,
+  serialized_end=717,
 )
 _sym_db.RegisterEnumDescriptor(_OBJECT_TYPE)
 
@@ -94,8 +94,8 @@ _OBJECT_STATUS = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=553,
-  serialized_end=613,
+  serialized_start=719,
+  serialized_end=779,
 )
 _sym_db.RegisterEnumDescriptor(_OBJECT_STATUS)
 
@@ -206,6 +206,80 @@ _BOX3D = _descriptor.Descriptor(
 )
 
 
+_TRAJECTORY = _descriptor.Descriptor(
+  name='Trajectory',
+  full_name='Trajectory',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='x', full_name='Trajectory.x', index=0,
+      number=1, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='y', full_name='Trajectory.y', index=1,
+      number=2, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='z', full_name='Trajectory.z', index=2,
+      number=3, type=1, cpp_type=5, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='heading', full_name='Trajectory.heading', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='velocity_x', full_name='Trajectory.velocity_x', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='velocity_y', full_name='Trajectory.velocity_y', index=5,
+      number=6, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='relative_timestamp', full_name='Trajectory.relative_timestamp', index=6,
+      number=7, type=4, cpp_type=4, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=178,
+  serialized_end=308,
+)
+
+
 _HEADER = _descriptor.Descriptor(
   name='Header',
   full_name='Header',
@@ -247,8 +321,8 @@ _HEADER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=177,
-  serialized_end=249,
+  serialized_start=310,
+  serialized_end=382,
 )
 
 
@@ -337,6 +411,13 @@ _OBJECT = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='trajectory', full_name='Object.trajectory', index=11,
+      number=12, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -351,8 +432,8 @@ _OBJECT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=252,
-  serialized_end=613,
+  serialized_start=385,
+  serialized_end=779,
 )
 
 
@@ -383,8 +464,8 @@ _CELL = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=615,
-  serialized_end=642,
+  serialized_start=781,
+  serialized_end=808,
 )
 
 
@@ -471,8 +552,8 @@ _FREESPACEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=645,
-  serialized_end=800,
+  serialized_start=811,
+  serialized_end=966,
 )
 
 
@@ -510,8 +591,146 @@ _FREESPACE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=802,
-  serialized_end=865,
+  serialized_start=968,
+  serialized_end=1031,
+)
+
+
+_CAMERAIMAGE = _descriptor.Descriptor(
+  name='CameraImage',
+  full_name='CameraImage',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='camera_name', full_name='CameraImage.camera_name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='CameraImage.image', index=1,
+      number=2, type=12, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"",
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1033,
+  serialized_end=1082,
+)
+
+
+_RADAROBJECT = _descriptor.Descriptor(
+  name='RadarObject',
+  full_name='RadarObject',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='RadarObject.id', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='type', full_name='RadarObject.type', index=1,
+      number=2, type=14, cpp_type=8, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='box', full_name='RadarObject.box', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='velocity_x', full_name='RadarObject.velocity_x', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='velocity_y', full_name='RadarObject.velocity_y', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=float(0),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1084,
+  serialized_end=1198,
+)
+
+
+_RADAR = _descriptor.Descriptor(
+  name='Radar',
+  full_name='Radar',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='radar_name', full_name='Radar.radar_name', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='radar_object', full_name='Radar.radar_object', index=1,
+      number=2, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1200,
+  serialized_end=1263,
 )
 
 
@@ -551,6 +770,20 @@ _DETECTION = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='image', full_name='Detection.image', index=4,
+      number=5, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='radar', full_name='Detection.radar', index=5,
+      number=6, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -563,27 +796,37 @@ _DETECTION = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=867,
-  serialized_end=963,
+  serialized_start=1266,
+  serialized_end=1414,
 )
 
 _BOX3D.fields_by_name['center'].message_type = _POINT3D
 _OBJECT.fields_by_name['type'].enum_type = _OBJECT_TYPE
 _OBJECT.fields_by_name['box'].message_type = _BOX3D
 _OBJECT.fields_by_name['status'].enum_type = _OBJECT_STATUS
+_OBJECT.fields_by_name['trajectory'].message_type = _TRAJECTORY
 _OBJECT_TYPE.containing_type = _OBJECT
 _OBJECT_STATUS.containing_type = _OBJECT
 _FREESPACE.fields_by_name['info'].message_type = _FREESPACEINFO
 _FREESPACE.fields_by_name['cells'].message_type = _CELL
+_RADAROBJECT.fields_by_name['type'].enum_type = _OBJECT_TYPE
+_RADAROBJECT.fields_by_name['box'].message_type = _BOX3D
+_RADAR.fields_by_name['radar_object'].message_type = _RADAROBJECT
 _DETECTION.fields_by_name['header'].message_type = _HEADER
 _DETECTION.fields_by_name['object'].message_type = _OBJECT
+_DETECTION.fields_by_name['image'].message_type = _CAMERAIMAGE
+_DETECTION.fields_by_name['radar'].message_type = _RADAR
 DESCRIPTOR.message_types_by_name['Point3D'] = _POINT3D
 DESCRIPTOR.message_types_by_name['Box3D'] = _BOX3D
+DESCRIPTOR.message_types_by_name['Trajectory'] = _TRAJECTORY
 DESCRIPTOR.message_types_by_name['Header'] = _HEADER
 DESCRIPTOR.message_types_by_name['Object'] = _OBJECT
 DESCRIPTOR.message_types_by_name['Cell'] = _CELL
 DESCRIPTOR.message_types_by_name['FreespaceInfo'] = _FREESPACEINFO
 DESCRIPTOR.message_types_by_name['Freespace'] = _FREESPACE
+DESCRIPTOR.message_types_by_name['CameraImage'] = _CAMERAIMAGE
+DESCRIPTOR.message_types_by_name['RadarObject'] = _RADAROBJECT
+DESCRIPTOR.message_types_by_name['Radar'] = _RADAR
 DESCRIPTOR.message_types_by_name['Detection'] = _DETECTION
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -600,6 +843,13 @@ Box3D = _reflection.GeneratedProtocolMessageType('Box3D', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:Box3D)
   })
 _sym_db.RegisterMessage(Box3D)
+
+Trajectory = _reflection.GeneratedProtocolMessageType('Trajectory', (_message.Message,), {
+  'DESCRIPTOR' : _TRAJECTORY,
+  '__module__' : 'detection_pb2'
+  # @@protoc_insertion_point(class_scope:Trajectory)
+  })
+_sym_db.RegisterMessage(Trajectory)
 
 Header = _reflection.GeneratedProtocolMessageType('Header', (_message.Message,), {
   'DESCRIPTOR' : _HEADER,
@@ -635,6 +885,27 @@ Freespace = _reflection.GeneratedProtocolMessageType('Freespace', (_message.Mess
   # @@protoc_insertion_point(class_scope:Freespace)
   })
 _sym_db.RegisterMessage(Freespace)
+
+CameraImage = _reflection.GeneratedProtocolMessageType('CameraImage', (_message.Message,), {
+  'DESCRIPTOR' : _CAMERAIMAGE,
+  '__module__' : 'detection_pb2'
+  # @@protoc_insertion_point(class_scope:CameraImage)
+  })
+_sym_db.RegisterMessage(CameraImage)
+
+RadarObject = _reflection.GeneratedProtocolMessageType('RadarObject', (_message.Message,), {
+  'DESCRIPTOR' : _RADAROBJECT,
+  '__module__' : 'detection_pb2'
+  # @@protoc_insertion_point(class_scope:RadarObject)
+  })
+_sym_db.RegisterMessage(RadarObject)
+
+Radar = _reflection.GeneratedProtocolMessageType('Radar', (_message.Message,), {
+  'DESCRIPTOR' : _RADAR,
+  '__module__' : 'detection_pb2'
+  # @@protoc_insertion_point(class_scope:Radar)
+  })
+_sym_db.RegisterMessage(Radar)
 
 Detection = _reflection.GeneratedProtocolMessageType('Detection', (_message.Message,), {
   'DESCRIPTOR' : _DETECTION,

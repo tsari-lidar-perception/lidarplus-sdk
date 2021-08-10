@@ -14,10 +14,20 @@ message Box3D {
     optional float heading = 5;             // rad, 0: -x, pi/2: +y, pi: +x, -pi/2: -y, [-pi, +pi)
 }
 
+message Trajectory {
+    optional double x = 1;                  // m
+    optional double y = 2;                  // m
+    optional double z = 3;                  // m
+    optional float heading = 4;             // rad, 0: -x, pi/2: +y, pi: +x, -pi/2: -y, [-pi, +pi)
+    optional float velocity_x = 5;          // m/s
+    optional float velocity_y = 6;          // m/s
+    optional uint64 relative_timestamp = 7; // timestamp of this trajectory relative to the scan start time in us
+}
+
 message Header {
     optional bytes version = 1;
-    optional uint64 timestamp = 2;          // the start timestamp is from the LP-01 lidar scanning
-    optional uint64 relative_timestamp = 3; // timestamp of this frame relative to the scan start time in ms
+    optional uint64 timestamp = 2;          // the start timestamp is from the frame arrival
+    optional uint64 relative_timestamp = 3; // timestamp of this frame relative to the scan start time in us
 }
 
 message Object {
@@ -45,6 +55,7 @@ message Object {
     optional bool  valid = 9;               // True: New valid (detected this frame), False: Older valid
     optional Status status = 10;
     optional uint32 age = 11;               // the age of the object (in frames). This value starts at 1 when the obstacle is first detected, and increments in 1 each frame. (1 ~ 255)
+    repeated Trajectory trajectory = 12;    // prediction trajectory of object
 }
 
 message Cell {
@@ -68,9 +79,29 @@ message Freespace {
     repeated Cell cells = 2;
 }
 
+message CameraImage {
+    optional string camera_name = 1;
+    optional bytes image = 2;               // jpeg encoding bytes
+}
+
+message RadarObject {
+    optional uint32 id = 1;                 // new obstacles are given the last used free ID [0, 255]
+    optional Object.Type type = 2;
+    optional Box3D box = 3;
+    optional float velocity_x = 4;          // m/s
+    optional float velocity_y = 5;          // m/s
+}
+
+message Radar {
+    optional string radar_name = 1;
+    repeated RadarObject radar_object = 2;
+}
+
 message Detection {
     optional Header header = 1;
     repeated Object object = 2;
     optional bytes freespace = 3;           // protobuf string bytes of Freespace
     optional bytes points = 4;
+    repeated CameraImage image = 5;
+    repeated Radar radar = 6;
 }
