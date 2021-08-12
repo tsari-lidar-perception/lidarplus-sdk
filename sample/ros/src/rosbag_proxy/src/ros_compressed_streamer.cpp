@@ -17,7 +17,7 @@ RosCompressedStreamer::~RosCompressedStreamer()
 }
 
 void RosCompressedStreamer::start() {
-  std::string compressed_topic = topic_ + "/compressed";
+  std::string compressed_topic = topic_;
   image_sub_ = nh_.subscribe(compressed_topic, 3, &RosCompressedStreamer::imageCallback, this);
 }
 

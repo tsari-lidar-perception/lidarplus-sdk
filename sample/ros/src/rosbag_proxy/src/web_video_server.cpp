@@ -132,9 +132,12 @@ bool WebVideoServer::handle_stream(const async_web_server_cpp::HttpRequest &requ
                                    const char* end)
 {
   std::string type = request.get_query_param_value_or_default("type", __default_stream_type);
+  std::string topic = request.get_query_param_value_or_default("topic", "");
+  if (topic.find("/compressed") != std::string::npos) {
+    type = "ros_compressed";
+  }
   if (stream_types_.find(type) != stream_types_.end())
   {
-    std::string topic = request.get_query_param_value_or_default("topic", "");
     ROS_INFO_STREAM("create stream: " << type << ", image topic: " << topic);
     boost::shared_ptr<ImageStreamer> streamer = stream_types_[type]->create_streamer(request, connection, nh_);
     streamer->start();
