@@ -10,6 +10,8 @@
 namespace web_video_server
 {
 
+uint64_t getCurrentTime();
+
 class ImageStreamer
 {
 public:
@@ -64,7 +66,7 @@ protected:
   int output_height_;
   std::string default_transport_;
 
-  ros::Time last_frame;
+  uint64_t last_frame;
   cv::Mat output_size_image;
   boost::mutex send_mutex_;
 

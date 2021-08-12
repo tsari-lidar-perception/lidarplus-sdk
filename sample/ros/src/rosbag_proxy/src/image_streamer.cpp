@@ -5,6 +5,12 @@
 namespace web_video_server
 {
 
+uint64_t getCurrentTime() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return static_cast<uint64_t>(tv.tv_sec * 1000000 + tv.tv_usec);
+}
+
 ImageStreamer::ImageStreamer(const async_web_server_cpp::HttpRequest &request,
                              async_web_server_cpp::HttpConnectionPtr connection, ros::NodeHandle& nh) :
     request_(request), connection_(connection), nh_(nh), inactive_(false)
@@ -48,7 +54,7 @@ void ImageTransportImageStreamer::restreamFrame(double max_age)
     return;
   }
   try {
-    if ( last_frame + ros::Duration(max_age) < ros::Time::now() ) {
+    if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {
       boost::mutex::scoped_lock lock(send_mutex_);
       sendImage(output_size_image, ros::Time::now() ); // don't update last_frame, it may remain an old value.
     }
@@ -128,7 +134,7 @@ void ImageTransportImageStreamer::imageCallback(const sensor_msgs::ImageConstPtr
       initialized_ = true;
     }
 
-    last_frame = ros::Time::now();
+    last_frame = getCurrentTime();
     sendImage(output_size_image, msg->header.stamp);
   }
   catch (cv_bridge::Exception &e)

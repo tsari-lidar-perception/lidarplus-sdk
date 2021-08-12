@@ -38,7 +38,7 @@ void RosCompressedStreamer::restreamFrame(double max_age)
     return;
   }
 
-  if ( last_frame + ros::Duration(max_age) < ros::Time::now() ) {
+  if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {
     boost::mutex::scoped_lock lock(send_mutex_);
     sendImage(last_msg, ros::Time::now() ); // don't update last_frame, it may remain an old value.
   }
@@ -86,8 +86,8 @@ void RosCompressedStreamer::sendImage(const sensor_msgs::CompressedImageConstPtr
 void RosCompressedStreamer::imageCallback(const sensor_msgs::CompressedImageConstPtr &msg) {
   boost::mutex::scoped_lock lock(send_mutex_); // protects last_msg and last_frame
   last_msg = msg;
-  last_frame = ros::Time::now();
-  sendImage(last_msg, last_frame);
+  last_frame = getCurrentTime();
+  sendImage(last_msg, ros::Time::now());
 }
 
 

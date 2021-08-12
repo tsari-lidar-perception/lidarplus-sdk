@@ -27,7 +27,7 @@ private:
   void imageCallback(const sensor_msgs::CompressedImageConstPtr &msg);
   MultipartStream stream_;
   ros::Subscriber image_sub_;
-  ros::Time last_frame;
+  uint64_t last_frame;
   sensor_msgs::CompressedImageConstPtr last_msg;
   boost::mutex send_mutex_;
 };

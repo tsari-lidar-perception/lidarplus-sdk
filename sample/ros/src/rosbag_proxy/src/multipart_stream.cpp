@@ -4,6 +4,8 @@
 namespace web_video_server
 {
 
+extern uint64_t getCurrentTime();
+
 MultipartStream::MultipartStream(
     async_web_server_cpp::HttpConnectionPtr& connection,
     const std::string& boundry,
@@ -23,7 +25,7 @@ void MultipartStream::sendInitialHeader() {
 
 void MultipartStream::sendPartHeader(const ros::Time &time, const std::string& type, size_t payload_size) {
   char stamp[20];
-  sprintf(stamp, "%.06lf", time.toSec());
+  sprintf(stamp, "%.06lf", getCurrentTime() / 1000000.0);
   boost::shared_ptr<std::vector<async_web_server_cpp::HttpHeader> > headers(
       new std::vector<async_web_server_cpp::HttpHeader>());
   headers->push_back(async_web_server_cpp::HttpHeader("Content-type", type));
