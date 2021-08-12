@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(rosbag_proxy)
 
+add_subdirectory(async_web_server_cpp)
+
 add_definitions(-std=c++11)
 set(CMAKE_CXX_FLAGS "-std=c++11")
-set(CMAKE_BUILD_TYPE "RELEASE")
+set(CMAKE_BUILD_TYPE "Release")
 
-find_package(catkin REQUIRED COMPONENTS roscpp pcl_ros)
+find_package(catkin REQUIRED COMPONENTS roscpp pcl_ros cv_bridge image_transport sensor_msgs)
+find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED COMPONENTS thread)
 find_package(PCL REQUIRED)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
@@ -16,10 +20,24 @@ catkin_package(
 
 include_directories(
    ${catkin_INCLUDE_DIRS}
+   include
 )
 
 add_subdirectory(network)
 
-add_executable(rosbag_proxy rosbag_proxy.cpp)
+add_executable(rosbag_proxy
+  rosbag_proxy.cpp
+  src/web_video_server.cpp
+  src/image_streamer.cpp
+  src/multipart_stream.cpp
+  src/ros_compressed_streamer.cpp
+  src/jpeg_streamers.cpp
+)
 add_dependencies(rosbag_proxy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rosbag_proxy ${catkin_LIBRARIES} network_driver)
+target_link_libraries(rosbag_proxy
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${OpenCV_LIBS}
+  async_web_server_cpp
+  network_driver
+)

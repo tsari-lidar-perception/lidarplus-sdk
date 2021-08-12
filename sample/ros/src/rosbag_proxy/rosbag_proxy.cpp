@@ -12,6 +12,7 @@
 #include <pcl/point_types.h>
 #include <pcl/ros/conversions.h>
 #include "UDPServer.h"
+#include "web_video_server/web_video_server.h"
 
 #pragma pack(1)
 struct CustomLidarPackage {
@@ -45,7 +46,7 @@ class rosbag_proxy {
         std::cout << "Destination Port: " << port << std::endl;
         udp_server.reset(new UDPServer(port + 10000));
         frame_id = 0;
-        points_sub = nh.subscribe<sensor_msgs::PointCloud2>(points_topic, 10, &rosbag_proxy::points_callback, this);
+        points_sub = nh.subscribe<sensor_msgs::PointCloud2>(points_topic, 3, &rosbag_proxy::points_callback, this);
     }
 
     void points_callback(const sensor_msgs::PointCloud2ConstPtr& data) {
@@ -102,6 +103,10 @@ class rosbag_proxy {
 int main(int argc, char **argv) {
     ros::init(argc, argv, "rosbag_proxy");
     rosbag_proxy node;
-    ros::spin();
+
+    ros::NodeHandle nh;
+    ros::NodeHandle private_nh("~");
+    web_video_server::WebVideoServer server(nh, private_nh);
+    server.spin();
     return 0;
 }
