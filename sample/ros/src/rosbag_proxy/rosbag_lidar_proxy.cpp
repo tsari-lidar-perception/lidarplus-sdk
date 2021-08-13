@@ -12,7 +12,6 @@
 #include <pcl/point_types.h>
 #include <pcl/ros/conversions.h>
 #include "UDPServer.h"
-#include "web_video_server/web_video_server.h"
 
 #pragma pack(1)
 struct CustomLidarPackage {
@@ -32,9 +31,9 @@ uint64_t getCurrentTime() {
   return static_cast<uint64_t>(tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
-class rosbag_proxy {
+class rosbag_lidar_proxy {
   public:
-    rosbag_proxy() 
+    rosbag_lidar_proxy() 
     : nh("~"),
       points_topic(nh.param<std::string>("points_topic", "/points")),
       device_ip(nh.param<std::string>("device_ip", "192.168.1.100")),
@@ -46,11 +45,19 @@ class rosbag_proxy {
         std::cout << "Destination Port: " << port << std::endl;
         udp_server.reset(new UDPServer(port + 10000));
         frame_id = 0;
-        points_sub = nh.subscribe<sensor_msgs::PointCloud2>(points_topic, 3, &rosbag_proxy::points_callback, this);
+        last_frame = 0;
+        points_sub = nh.subscribe<sensor_msgs::PointCloud2>(points_topic, 3, &rosbag_lidar_proxy::points_callback, this);
     }
 
     void points_callback(const sensor_msgs::PointCloud2ConstPtr& data) {
-        std::cout << "Get topic: " << points_topic <<  std::endl;
+        boost::mutex::scoped_lock lock(send_mutex_);
+        std::cout << getCurrentTime() << ": Get topic: " << points_topic <<  std::endl;
+        last_msg = data;
+        last_frame = getCurrentTime();
+        send_points(data);
+    }
+
+    void send_points(const sensor_msgs::PointCloud2ConstPtr& data) {
         pcl::PointCloud<pcl::PointXYZI>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZI>());
         pcl::fromROSMsg(*data, *cloud);
 
@@ -64,6 +71,8 @@ class rosbag_proxy {
         lidarPackage.frame_id = frame_id;
         int point_num = 0;
         int package_count = 0;
+        int wait_time = 40000 / (cloud->points.size() / 74 / 128);
+
         for (int index = 0; index < cloud->points.size(); index++) {
             if (!std::isfinite(cloud->points[index].x) || !std::isfinite(cloud->points[index].y) ||
                 !std::isfinite(cloud->points[index].z) || !std::isfinite(cloud->points[index].intensity)) {
@@ -82,12 +91,31 @@ class rosbag_proxy {
                 memcpy(buf, &lidarPackage, sizeof(CustomLidarPackage));
                 udp_server->UDPSendtoBuf(device_ip, port, buf, 1206);
                 package_count++;
-                if ((package_count % 3) == 0) {
-                    usleep(50); //avoid buffer overrun
+                if ((package_count % 128) == 0) {
+                    usleep(wait_time); //avoid buffer overrun
                 }
             }
         }
         frame_id++;
+    }
+
+    void restreamFrame(double max_age) {
+        if (last_msg == 0) {
+            return;
+        }
+        if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {
+            boost::mutex::scoped_lock lock(send_mutex_);
+            send_points(last_msg);
+        }
+    }
+
+    void spin() {
+        ros::AsyncSpinner spinner(1);
+        spinner.start();
+        while(ros::ok()) {
+            restreamFrame(0.5);
+            usleep(100000);
+        }
     }
 
   private:
@@ -96,17 +124,16 @@ class rosbag_proxy {
     std::string points_topic;
     std::string device_ip;
     int port;
+    uint64_t last_frame;
+    sensor_msgs::PointCloud2ConstPtr last_msg;
+    boost::mutex send_mutex_;
     std::unique_ptr<UDPServer> udp_server;
     int frame_id;
 };
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "rosbag_proxy");
-    rosbag_proxy node;
-
-    ros::NodeHandle nh;
-    ros::NodeHandle private_nh("~");
-    web_video_server::WebVideoServer server(nh, private_nh);
-    server.spin();
+    ros::init(argc, argv, "rosbag_lidar_proxy");
+    rosbag_lidar_proxy node;
+    node.spin();
     return 0;
 }

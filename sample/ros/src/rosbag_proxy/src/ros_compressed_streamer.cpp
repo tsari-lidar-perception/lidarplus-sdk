@@ -27,15 +27,36 @@ void RosCompressedStreamer::restreamFrame(double max_age)
     return;
 
   if (last_msg == 0) {
-    cv::Mat dummy = cv::Mat::zeros(480, 640, CV_8UC3);
-    std::vector<int> encode_params;
-    encode_params.push_back(cv::IMWRITE_JPEG_QUALITY);
-    encode_params.push_back(80);
+    try {
+      cv::Mat dummy = cv::Mat::zeros(480, 640, CV_8UC3);
+      std::vector<int> encode_params;
+      encode_params.push_back(cv::IMWRITE_JPEG_QUALITY);
+      encode_params.push_back(80);
 
-    std::vector<uchar> encoded_buffer;
-    cv::imencode(".jpeg", dummy, encoded_buffer, encode_params);
-    stream_.sendPartAndClear(ros::Time::now(), "image/jpeg", encoded_buffer);
-    return;
+      std::vector<uchar> encoded_buffer;
+      cv::imencode(".jpeg", dummy, encoded_buffer, encode_params);
+      stream_.sendPartAndClear(ros::Time::now(), "image/jpeg", encoded_buffer);
+      return;
+    }
+    catch (boost::system::system_error &e)
+    {
+      // happens when client disconnects
+      ROS_DEBUG("system_error exception: %s", e.what());
+      inactive_ = true;
+      return;
+    }
+    catch (std::exception &e)
+    {
+      ROS_ERROR_THROTTLE(30, "exception: %s", e.what());
+      inactive_ = true;
+      return;
+    }
+    catch (...)
+    {
+      ROS_ERROR_THROTTLE(30, "exception");
+      inactive_ = true;
+      return;
+    }
   }
 
   if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {

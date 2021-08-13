@@ -18,7 +18,7 @@ class MultipartStream {
 public:
   MultipartStream(async_web_server_cpp::HttpConnectionPtr& connection,
                   const std::string& boundry="boundarydonotcross",
-                  std::size_t max_queue_size=1);
+                  std::size_t max_queue_size=3);
 
   void sendInitialHeader();
   void sendPartHeader(const ros::Time &time, const std::string& type, size_t payload_size);

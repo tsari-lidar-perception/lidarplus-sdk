@@ -5,7 +5,7 @@
 
     <param name="use_sim_time" value="true"/>
 
-    <node pkg="rosbag_proxy" type="rosbag_proxy" name="rosbag_proxy" output="screen">
+    <node pkg="rosbag_proxy" type="rosbag_lidar_proxy" name="rosbag_lidar_proxy" output="screen">
         <param name="points_topic" value="$(arg points_topic)"/>
         <param name="device_ip" value="$(arg device_ip)"/>
         <param name="port" value="$(arg port)"/>
@@ -14,10 +14,12 @@
     <!--arg name="points_topic_2" default="/points_2"/>
     <arg name="device_ip_2" default="192.168.1.101"/>
     <arg name="port_2" default="2689"/>
-    <node pkg="rosbag_proxy" type="rosbag_proxy" name="rosbag_proxy_2" output="screen">
+    <node pkg="rosbag_proxy" type="rosbag_lidar_proxy" name="rosbag_lidar_proxy" output="screen">
         <param name="points_topic" value="$(arg points_topic_2)"/>
         <param name="device_ip" value="$(arg device_ip_2)"/>
         <param name="port" value="$(arg port_2)"/>
     </node-->
+
+    <node pkg="rosbag_proxy" type="rosbag_camera_proxy" name="rosbag_camera_proxy" output="screen"/>
 
 </launch>

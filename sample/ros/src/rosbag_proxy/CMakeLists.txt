@@ -25,19 +25,29 @@ include_directories(
 
 add_subdirectory(network)
 
-add_executable(rosbag_proxy
-  rosbag_proxy.cpp
+add_executable(rosbag_lidar_proxy
+  rosbag_lidar_proxy.cpp
+)
+add_dependencies(rosbag_lidar_proxy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rosbag_lidar_proxy
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  network_driver
+)
+
+add_executable(rosbag_camera_proxy
+  rosbag_camera_proxy.cpp
   src/web_video_server.cpp
   src/image_streamer.cpp
   src/multipart_stream.cpp
   src/ros_compressed_streamer.cpp
   src/jpeg_streamers.cpp
 )
-add_dependencies(rosbag_proxy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-target_link_libraries(rosbag_proxy
+
+add_dependencies(rosbag_camera_proxy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rosbag_camera_proxy
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
   async_web_server_cpp
-  network_driver
 )

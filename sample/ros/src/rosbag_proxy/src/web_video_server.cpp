@@ -43,18 +43,12 @@ WebVideoServer::WebVideoServer(ros::NodeHandle &nh, ros::NodeHandle &private_nh)
     nh_(nh), handler_group_(
         async_web_server_cpp::HttpReply::stock_reply(async_web_server_cpp::HttpReply::not_found))
 {
-#if ROS_HAS_STEADYTIMER || defined USE_STEADY_TIMER
-  cleanup_timer_ = nh.createSteadyTimer(ros::WallDuration(60), boost::bind(&WebVideoServer::cleanup_inactive_streams, this));
-#else
-  cleanup_timer_ = nh.createTimer(ros::Duration(60), boost::bind(&WebVideoServer::cleanup_inactive_streams, this));
-#endif
-
   address_ = "0.0.0.0";
   port_ = 17777;
-  __verbose = true;
+  __verbose = false;
 
-  int server_threads = 4;
-  ros_threads_ = 4;
+  int server_threads = 2;
+  ros_threads_ = 2;
   __default_stream_type = "mjpeg";
 
   stream_types_["mjpeg"] = boost::shared_ptr<ImageStreamerType>(new MjpegStreamerType());
@@ -89,8 +83,8 @@ void WebVideoServer::spin()
   spinner.start();
 
   while( ros::ok() ) {
-    this->restreamFrames(1.0);
-    usleep(1000000);
+    this->restreamFrames(0.5);
+    usleep(100000);
   }
 
   server_->stop();
@@ -99,31 +93,9 @@ void WebVideoServer::spin()
 void WebVideoServer::restreamFrames( double max_age )
 {
   boost::mutex::scoped_lock lock(subscriber_mutex_);
-
-  typedef std::vector<boost::shared_ptr<ImageStreamer> >::iterator itr_type;
-
-  for (itr_type itr = image_subscribers_.begin(); itr < image_subscribers_.end(); ++itr)
-    {
-      (*itr)->restreamFrame( max_age );
-    }
-}
-
-void WebVideoServer::cleanup_inactive_streams()
-{
-  boost::mutex::scoped_lock lock(subscriber_mutex_, boost::try_to_lock);
-  if (lock)
+  for (auto &itr : image_subscribers_)
   {
-    typedef std::vector<boost::shared_ptr<ImageStreamer> >::iterator itr_type;
-    itr_type new_end = std::partition(image_subscribers_.begin(), image_subscribers_.end(),
-                                      !boost::bind(&ImageStreamer::isInactive, _1));
-    if (__verbose)
-    {
-      for (itr_type itr = new_end; itr < image_subscribers_.end(); ++itr)
-      {
-        ROS_INFO_STREAM("Removed Stream: " << (*itr)->getTopic());
-      }
-    }
-    image_subscribers_.erase(new_end, image_subscribers_.end());
+    itr.second->restreamFrame( max_age );
   }
 }
 
@@ -142,12 +114,11 @@ bool WebVideoServer::handle_stream(const async_web_server_cpp::HttpRequest &requ
     boost::shared_ptr<ImageStreamer> streamer = stream_types_[type]->create_streamer(request, connection, nh_);
     streamer->start();
     boost::mutex::scoped_lock lock(subscriber_mutex_);
-    image_subscribers_.push_back(streamer);
+    image_subscribers_[topic] = streamer;
   }
   else
   {
-    async_web_server_cpp::HttpReply::stock_reply(async_web_server_cpp::HttpReply::not_found)(request, connection, begin,
-                                                                                             end);
+    async_web_server_cpp::HttpReply::stock_reply(async_web_server_cpp::HttpReply::not_found)(request, connection, begin, end);
   }
   return true;
 }

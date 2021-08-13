@@ -3,6 +3,7 @@
 
 #include <ros/ros.h>
 #include <cv_bridge/cv_bridge.h>
+#include <map>
 #include <vector>
 #include "web_video_server/image_streamer.h"
 #include "async_web_server_cpp/http_server.hpp"
@@ -45,11 +46,6 @@ private:
   void cleanup_inactive_streams();
 
   ros::NodeHandle nh_;
-#if ROS_HAS_STEADYTIMER || defined USE_STEADY_TIMER
-  ros::SteadyTimer cleanup_timer_;
-#else
-  ros::Timer cleanup_timer_;
-#endif
   int ros_threads_;
   double publish_rate_;
   int port_;
@@ -57,7 +53,7 @@ private:
   boost::shared_ptr<async_web_server_cpp::HttpServer> server_;
   async_web_server_cpp::HttpRequestHandlerGroup handler_group_;
 
-  std::vector<boost::shared_ptr<ImageStreamer> > image_subscribers_;
+  std::map<std::string, boost::shared_ptr<ImageStreamer> > image_subscribers_;
   std::map<std::string, boost::shared_ptr<ImageStreamerType> > stream_types_;
   boost::mutex subscriber_mutex_;
 };

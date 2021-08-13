@@ -49,11 +49,13 @@ void ImageTransportImageStreamer::restreamFrame(double max_age)
 {
   if (inactive_)
     return;
-  if (!initialized_) {
-    sendImage(cv::Mat::zeros(480, 640, CV_8UC3), ros::Time::now());
-    return;
-  }
+
   try {
+    if (!initialized_) {
+      sendImage(cv::Mat::zeros(480, 640, CV_8UC3), ros::Time::now());
+      return;
+    }
+
     if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {
       boost::mutex::scoped_lock lock(send_mutex_);
       sendImage(output_size_image, ros::Time::now() ); // don't update last_frame, it may remain an old value.
