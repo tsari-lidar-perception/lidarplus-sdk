@@ -71,7 +71,7 @@ class rosbag_lidar_proxy {
         lidarPackage.frame_id = frame_id;
         int point_num = 0;
         int package_count = 0;
-        int wait_time = 40000 / (cloud->points.size() / 74 / 128);
+        int wait_time = 40000 / std::max((cloud->points.size() / 74 / 128), size_t(1));
 
         for (int index = 0; index < cloud->points.size(); index++) {
             if (!std::isfinite(cloud->points[index].x) || !std::isfinite(cloud->points[index].y) ||
