@@ -3,21 +3,21 @@
 namespace py=pybind11;
 
 
-std::vector<std::string> GetFiles()
+std::vector<std::string> GetFiles(std::string src_dir)
 {   
-    const char *src_dir;
+    
     const char *ext;
-    src_dir = "./";
     ext = ".pkl";
     std::vector<std::string> result;
-    std::string directory(src_dir);
     std::string m_ext(ext);
-    //printf("ext length:%d\n",m_ext.length());
- 
-    DIR *dir = opendir(src_dir);
+
+    char* src_d = (char*)(src_dir.data());
+    if(src_dir == ""){src_d = (char*)"./";}
+    
+    DIR *dir = opendir(src_d);
     if ( dir == NULL )
     {
-        printf("[ERROR] %s is not a directory or not exist!", src_dir);
+        printf("[ERROR] %s is not a directory or not exist!", src_d);
         return result;
     }
 
@@ -73,28 +73,3 @@ pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(py::array_t<float> input) {
     }
   return cloud;
 }
-
-// F_TEST
-// int main() {
-//   py::scoped_interpreter python;
-//   std::vector<std::string> filelists;
-//   filelists = GetFiles();
-
-//   for(auto c: filelists){
-//     py::dict data_dict = get_pkldata(c);
-
-//     for(auto it: data_dict["points"].attr("keys")()){
-//       std::string lidarname =  it.cast<std::string>();
-//       py::dict points_obj = data_dict["points"];
-//       pcl::PointCloud<pcl::PointXYZI> points_cloud = toPclPointCloud(points_obj[lidarname.c_str()].cast<py::array_t<float>>());
-//     }
-
-//     for(auto it: data_dict["image"].attr("keys")()){
-//       std::string imagename =  it.cast<std::string>();
-//       py::dict image_obj = data_dict["image"].cast<py::dict>();
-//       py::bytes image_bytes = image_obj[imagename.c_str()].cast<py::bytes>();
-//       cv::Mat image_ = cv::imdecode(cv::Mat(1, py::len(image_bytes), CV_8UC1, &image_bytes), CV_LOAD_IMAGE_UNCHANGED);
-//   }
-//   return 0;
-//   }
-// }

@@ -8,19 +8,44 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <getopt.h>
 namespace py=pybind11;
 
 
-int main() {
+int main(int argc, char *argv[]) {
   py::scoped_interpreter python;
   std::vector<std::string> filelists;
-  filelists = GetFiles();
 
-  RosbagWritter wbag("rosbag");
-  for(auto c: filelists){
+  int opt;
+  int option_index = 0;
+
+  std::string input_p;
+  std::string output_p;
+  struct option long_options[] = {
+    {"input_path", optional_argument, NULL, 'd'},
+    {"output_path", optional_argument, NULL, 'o'},
+    {0, 0, 0, 0}
+   };
+
+  while ( (opt = getopt_long(argc, argv, "d:o:", long_options, &option_index)) != -1)
+  {
+		switch (opt) {
+		case 'd': input_p = optarg;break;
+    case 'o': output_p = optarg;break;
+    }
+  }
+
+  filelists = GetFiles(input_p);
+  std::string bag_name = output_p + std::string("rosbag.bag");
+
+  RosbagWritter wbag(bag_name);
+  for(auto c: filelists){ 
     py::dict data_dict = get_pkldata(c);
 
-    for(auto it: data_dict["points"].attr("keys")()){
+    for(auto it: data_dict["points"].attr("keys")()) {
       std::string lidarname =  it.cast<std::string>();
       py::dict points_obj = data_dict["points"];
       pcl::PointCloud<pcl::PointXYZI> points_cloud = toPclPointCloud(points_obj[lidarname.c_str()].cast<py::array_t<float>>());
@@ -31,7 +56,7 @@ int main() {
       {
         lidarname.erase(pos, 1);
       }
-      wbag.writeScan(lidarname, "000000", data_dict["frame_start_timestamp"].cast<uint64_t>(), points_cloud);
+      wbag.writeScan(lidarname, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), points_cloud);
     }
 
     for(auto it: data_dict["image"].attr("keys")()){
@@ -41,7 +66,7 @@ int main() {
       cv::Mat image_ = cv::imdecode(cv::Mat(1, py::len(image_bytes), CV_8UC1, &image_bytes), CV_LOAD_IMAGE_UNCHANGED);
 
       imagename = "image" + imagename;
-      wbag.writeImage(imagename, "000000", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_);
+      wbag.writeImage(imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_);
     }
 
   }
