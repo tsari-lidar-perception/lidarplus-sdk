@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(rosbag_writter LANGUAGES CXX)
+project(pkl_to_rosbag LANGUAGES CXX)
  
 add_subdirectory(rosbag_writter)
  
@@ -20,9 +20,8 @@ include_directories(
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     rosbag_writter/include
-    get_pkldata/include
-    get_pkldata/pybind11/include
+    pybind11/include
   )
 
-add_executable (main src/main.cpp get_pkldata/src/getpkldata.cpp)
-target_link_libraries (main  rosbag_writter ${PYTHON_LIBRARY})
+add_executable (pkl_to_rosbag src/main.cpp src/GetPklData.cpp)
+target_link_libraries (pkl_to_rosbag  rosbag_writter ${PYTHON_LIBRARY})

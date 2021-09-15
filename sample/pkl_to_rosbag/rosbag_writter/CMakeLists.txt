@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   nav_msgs
   sensor_msgs
   cv_bridge
-)
+  )
 
 include_directories(include
                     ${catkin_INCLUDE_DIRS}
