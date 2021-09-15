@@ -25,15 +25,15 @@ int main(int argc, char *argv[])
   std::string input_p;
   std::string output_p;
   struct option long_options[] = {
-      {"input_path", optional_argument, NULL, 'd'},
+      {"input_path", optional_argument, NULL, 'i'},
       {"output_path", optional_argument, NULL, 'o'},
       {0, 0, 0, 0}};
 
-  while ((opt = getopt_long(argc, argv, "d:o:", long_options, &option_index)) != -1)
+  while ((opt = getopt_long(argc, argv, "i:o:", long_options, &option_index)) != -1)
   {
     switch (opt)
     {
-    case 'd':
+    case 'i':
       input_p = optarg;
       break;
     case 'o':
@@ -43,12 +43,19 @@ int main(int argc, char *argv[])
   }
 
   filelists = getFiles(input_p);
+  if (filelists.empty())
+  {
+    printf("[ERROR] No .pkl file found!\n");
+    return 0;
+  }
+
   std::string bag_name = output_p + std::string("rosbag.bag");
 
   RosbagWritter wbag(bag_name);
   for (auto c : filelists)
   {
-    py::dict data_dict = getPklData(c);
+    auto file_path = input_p + c;
+    py::dict data_dict = getPklData(file_path);
 
     for (auto it : data_dict["points"].attr("keys")())
     {

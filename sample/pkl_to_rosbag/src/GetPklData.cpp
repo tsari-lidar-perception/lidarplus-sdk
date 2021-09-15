@@ -19,7 +19,7 @@ std::vector<std::string> getFiles(std::string src_dir)
     DIR *dir = opendir(src_d);
     if (dir == NULL)
     {
-        printf("[ERROR] %s is not a directory or not exist!", src_d);
+        printf("[ERROR] %s is not a directory or not exist!\n", src_d);
         return result;
     }
 
