@@ -26,6 +26,6 @@ py::dict getPklData(std::string fliename);
 
 pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(pybind11::array_t<float> input);
 
-cv::Mat toCvMatImage(py::array_t<float> input);
+cv::Mat toCvMatImage(py::bytes input);
 
 #endif //__GET_PKL_DATA___H

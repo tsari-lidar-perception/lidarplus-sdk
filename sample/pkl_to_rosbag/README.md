@@ -34,6 +34,7 @@ The target file named **pkl_to_rosbag** will be generated in the **build** folde
 - When using the long options,  the path cannot be with ~ (e.g. ~/Desktop/)
 - All the paths should end with /
 - When no path is specified, the current working directory is used by default
+- The topic frame is **base_link**
 
 
 

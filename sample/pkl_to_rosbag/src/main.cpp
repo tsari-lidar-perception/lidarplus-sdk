@@ -75,9 +75,11 @@ int main(int argc, char *argv[])
     for (auto it : data_dict["image"].attr("keys")())
     {
       std::string imagename = it.cast<std::string>();
-      py::dict image_obj = data_dict["image"].cast<py::dict>();
+      py::dict image_obj = data_dict["image"];
       py::bytes image_bytes = image_obj[imagename.c_str()].cast<py::bytes>();
-      cv::Mat image_ = cv::imdecode(cv::Mat(1, py::len(image_bytes), CV_8UC1, &image_bytes), CV_LOAD_IMAGE_UNCHANGED);
+
+      cv::Mat cvmat_1c = toCvMatImage(image_bytes);
+      cv::Mat image_ = cv::imdecode(cvmat_1c, CV_LOAD_IMAGE_UNCHANGED);
 
       imagename = "image" + imagename;
       wbag.writeImage(imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_);

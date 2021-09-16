@@ -75,3 +75,19 @@ pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(py::array_t<float> input)
     }
     return cloud;
 }
+
+cv::Mat toCvMatImage(py::bytes input)
+{
+    int n = py::len(input);
+
+    cv::Mat outimage(1, n, CV_8UC1);
+
+    int j = 0;
+    for (auto i : input)
+    {
+        outimage.at<uchar>(0, j) = int(i.cast<int>());
+        j++;
+    }
+
+    return outimage;
+}
