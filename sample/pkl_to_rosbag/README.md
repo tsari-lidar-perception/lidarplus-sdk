@@ -61,6 +61,6 @@ Specify the path
 Specify the output name
 
 ```
-~/Desktop/pkl_to_rosbag -i ~/Desktop/test/ -o ~/Desktop/abc
+~/Desktop/pkl_to_rosbag -i ~/Desktop/test/ -o ~/Desktop/rosbag.bag
 ```
 
