@@ -49,7 +49,16 @@ int main(int argc, char *argv[])
     return 0;
   }
 
-  std::string bag_name = output_p + std::string("rosbag.bag");
+  char ch = output_p.back();
+  std::string bag_name;
+  if (output_p == "" || ch == '/')
+  {
+    bag_name = output_p + std::string("rosbag.bag");
+  }
+  else
+  {
+    bag_name = output_p;
+  }
 
   RosbagWritter wbag(bag_name);
   for (auto c : filelists)

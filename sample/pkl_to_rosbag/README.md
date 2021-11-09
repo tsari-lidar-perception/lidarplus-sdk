@@ -14,7 +14,7 @@ The target file named **pkl_to_rosbag** will be generated in the **build** folde
 
 ## Options
 
-**Single letter options:**
+**Single letter options: (Recommend)**
 
 ```
 -i [path with .pkl files]
@@ -32,9 +32,11 @@ The target file named **pkl_to_rosbag** will be generated in the **build** folde
 
 - When using the long options, there must be no spaces on either side of the equal sign
 - When using the long options,  the path cannot be with ~ (e.g. ~/Desktop/)
-- All the paths should end with /
+- All the input paths should end with /
 - When no path is specified, the current working directory is used by default
 - The topic frame is **base_link**
+- The folder path should already exist
+- When the output name is not specified, the default is rosbag.bag, when it does not end with /, the character added after / is the file name
 
 
 
@@ -49,10 +51,16 @@ No path is specified
 Specify the path
 
 ```
-~/Desktop/pkl_to_rosbag -d ~/Desktop/test/ -o ~/Desktop/
+~/Desktop/pkl_to_rosbag -i ~/Desktop/test/ -o ~/Desktop/
 ```
 
 ```
 ./pkl_to_rosbag --input_path=/home/znqc/Desktop/test/ --output_path=/home/znqc/Desktop/
+```
+
+Specify the output name
+
+```
+~/Desktop/pkl_to_rosbag -i ~/Desktop/test/ -o ~/Desktop/rosbag.bag
 ```
 
