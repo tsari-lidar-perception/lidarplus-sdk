@@ -34,28 +34,23 @@ struct InsDataType {
     std::string Cs;     // optional, verification
 };
 
-time_t TimeFromYMD(int year, int month, int day) {
-  struct tm tm = {0};
-  tm.tm_year = year - 1900;
-  tm.tm_mon = month - 1;
-  tm.tm_mday = day;
-  return mktime(&tm);
+#define SECS_PER_WEEK (60L*60*24*7)
+#define LEAP_SECOND 18
+
+uint64_t getCurrentTime() {
+  struct timeval tv;
+  gettimeofday(&tv, NULL);
+  return static_cast<uint64_t>(tv.tv_sec * 1000000 + tv.tv_usec);
 }
 
-#define SECS_PER_WEEK (60L*60*24*7)
-
 int GPSweek() {
-  time_t rawtime;
-  time(&rawtime);
-  double diff = difftime(rawtime, TimeFromYMD(1980, 1, 6));
+  double diff = (getCurrentTime() - 315964800000000ULL) / 1000000.0;
   return (int) (diff / SECS_PER_WEEK);
 }
 
-int GPSsecond() {
-  time_t rawtime;
-  time(&rawtime);
-  double diff = difftime(rawtime, TimeFromYMD(1980, 1, 6));
-  return (diff - (int) (diff / SECS_PER_WEEK) * SECS_PER_WEEK);
+double GPSsecond() {
+  double diff = (getCurrentTime() - 315964800000000ULL) / 1000000.0;
+  return (diff - (int) (diff / SECS_PER_WEEK) * SECS_PER_WEEK + LEAP_SECOND);
 }
 
 char dec2hex(int d) {
