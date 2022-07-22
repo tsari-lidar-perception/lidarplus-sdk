@@ -4,6 +4,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <cv_bridge/cv_bridge.h>
 #include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/Imu.h>
 #include <rosbag/bag.h>
 
 RosbagWritter::RosbagWritter(std::string file)
@@ -52,4 +53,22 @@ void RosbagWritter::writeImage(std::string topic, const std::string frame, uint6
   topicTime.nsec = (timestamp % 1000000) * 1000;
   auto mBagPtr = (rosbag::Bag *)mBag;
   mBagPtr->write(topic, topicTime, im);
+}
+
+void RosbagWritter::writeImu(std::string topic, const std::string frame, Imu_t &imu)
+{
+  sensor_msgs::Imu imuMsg;
+  ros::Time topicTime;
+  topicTime.sec = imu.timestamp / 1000000;
+  topicTime.nsec = (imu.timestamp % 1000000) * 1000;
+
+  imuMsg.header.stamp = topicTime;
+  imuMsg.angular_velocity.x = imu.gyro_x;
+  imuMsg.angular_velocity.y = imu.gyro_y;
+  imuMsg.angular_velocity.z = imu.gyro_z;
+  imuMsg.linear_acceleration.x = imu.acc_x;
+  imuMsg.linear_acceleration.y = imu.acc_y;
+  imuMsg.linear_acceleration.z = imu.acc_z;
+  auto mBagPtr = (rosbag::Bag *)mBag;
+  mBagPtr->write(topic, topicTime, imuMsg);
 }

@@ -3,21 +3,47 @@
 
 #include <string>
 #include <vector>
+#include <cmath>
 #include <pybind11/embed.h>
 #include <pybind11/stl.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
 #include <unistd.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
 namespace py = pybind11;
 
+#define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
+#define PBWIDTH 120
+
+void printProgress(double percentage)
+{
+  int val = (int) (percentage * 100);
+  int lpad = (int) (percentage * PBWIDTH);
+  int rpad = PBWIDTH - lpad;
+  printf("\r%3d%% [%.*s%*s]", val, lpad, PBSTR, rpad, "");
+  fflush(stdout);
+}
+
+void signalHandler(int s)
+{
+  printf("exit by user interrupt\n");
+  exit(1);
+}
+
 int main(int argc, char *argv[])
 {
   py::scoped_interpreter python;
   std::vector<std::string> filelists;
+
+  struct sigaction sig_handler;
+  sig_handler.sa_handler = signalHandler;
+  sigemptyset(&sig_handler.sa_mask);
+  sig_handler.sa_flags = 0;
+  sigaction(SIGINT, &sig_handler, NULL);
 
   int opt;
   int option_index = 0;
@@ -61,6 +87,7 @@ int main(int argc, char *argv[])
   }
 
   RosbagWritter wbag(bag_name);
+  int file_index = 0;
   for (auto c : filelists)
   {
     auto file_path = input_p + c;
@@ -93,6 +120,26 @@ int main(int argc, char *argv[])
       imagename = "image" + imagename;
       wbag.writeImage(imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_);
     }
+
+    if (data_dict.contains("imu_data"))
+    {
+      auto imu_data = data_dict["imu_data"].cast<py::array_t<double>>();
+      auto imu_ref = imu_data.unchecked<2>();
+      for (size_t i = 0; i < imu_ref.shape(0); i++)
+      {
+        Imu_t imu;
+        imu.gyro_x = imu_ref(i, 1) / 180.0 * M_PI;
+        imu.gyro_y = imu_ref(i, 2) / 180.0 * M_PI;
+        imu.gyro_z = imu_ref(i, 3) / 180.0 * M_PI;
+        imu.acc_x  = imu_ref(i, 4) * 9.81;
+        imu.acc_y  = imu_ref(i, 5) * 9.81;
+        imu.acc_z  = imu_ref(i, 6) * 9.81;
+        imu.timestamp = uint64_t(imu_ref(i, 0));
+        wbag.writeImu("imu_raw", "base_link", imu);
+      }
+    }
+
+    printProgress(double(file_index++) / filelists.size());
   }
   return 0;
 }
