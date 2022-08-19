@@ -1,15 +1,19 @@
+Note: python version must need python3!!
 # **rosbag_to_video**
 
 # **Install**:
-
-**ffmpeg** is needed and can be installed on **Ubuntu** with:
-
-    sudo apt install ffmpeg
 
 **ros**:
 
     ROS must be installed on your computer,reference tutorials to https://blog.csdn.net/KIK9973/article/details/118755045  (for ubuntu18.04)
     sudo apt install python3-roslib python3-sensor-msgs python3-opencv 
+    
+ **Install dependent packages**
+    sudo apt-get install ffmpeg
+     pip install rospkg
+     pip install pycryptodomex
+     pip install gnupg
+     pip install opencv-python
 
 ## **Usage**:
 
