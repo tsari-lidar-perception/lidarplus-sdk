@@ -21,6 +21,7 @@ make -j
 ```
 
 # RUN
+## 1.Receive Object Detection
 cpp samples
 ```shell
 build/sample/udp_recv_sample/cpp/recv_detection_udp
@@ -30,7 +31,11 @@ python samples
 ```shell
 python3 sample/udp_recv_sample/python/recv_detection.py
 ```
-
+## 2.Receive Localization
+cpp samples
+```shell
+build/sample/udp_recv_sample/cpp/recv_localization_udp
+```
 # ROS Sample
 ```shell
 cd sample/ros

@@ -26,3 +26,11 @@ target_link_libraries(recv_detection_udp
                       network_driver
                       ${PROTOBUF_LIBRARIES}
 )
+
+add_executable(recv_localization_udp
+               recv_localization_udp.cpp
+)
+
+target_link_libraries(recv_localization_udp
+                      network_driver
+)

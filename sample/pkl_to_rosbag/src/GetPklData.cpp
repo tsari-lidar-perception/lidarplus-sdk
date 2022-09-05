@@ -70,7 +70,7 @@ pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(py::array_t<float> input)
         point.x = ref_input(i, 0);
         point.y = ref_input(i, 1);
         point.z = ref_input(i, 2);
-        point.intensity = 0;
+        point.intensity = ref_input(i, 3) * 255.0f;
         cloud.push_back(point);
     }
     return cloud;
