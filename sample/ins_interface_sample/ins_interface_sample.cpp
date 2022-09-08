@@ -61,7 +61,7 @@ char dec2hex(int d) {
 
 std::string formatGPCHC(InsDataType ins) {
     char str[1024] = "";
-    sprintf(str, "%s,%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%.10lf,%.10lf,%.10lf,%lf,%lf,%lf,%d,%d,%d,%d,%d,",
+    sprintf(str, "%s,%d,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%lf,%.10lf,%.10lf,%.10lf,%lf,%lf,%lf,%lf,%d,%d,%d,%d,%d,",
             ins.header.c_str(), ins.gps_week, ins.gps_time, ins.heading, ins.pitch, ins.roll, ins.gyro_x, ins.gyro_y, ins.gyro_z,
             ins.acc_x, ins.acc_y, ins.acc_z, ins.latitude, ins.longitude, ins.altitude, ins.Ve, ins.Vn, ins.Vu,
             ins.baseline, ins.NSV1, ins.NSV2, ins.Status, ins.age, ins.Warnning);
