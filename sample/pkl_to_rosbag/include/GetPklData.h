@@ -24,7 +24,7 @@ std::vector<std::string> getFiles(std::string src_dir);
 
 py::dict getPklData(std::string fliename);
 
-pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(pybind11::array_t<float> input);
+pcl::PointCloud<pcl::PointXYZI>::Ptr toPclPointCloud(const pybind11::array_t<float> &input);
 
 cv::Mat toCvMatImage(py::bytes input);
 

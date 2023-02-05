@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 
 project(pkl_to_rosbag LANGUAGES CXX)
- 
+
+set(CMAKE_BUILD_TYPE "Release")
+
 add_subdirectory(rosbag_writter)
  
 set(CMAKE_CXX_STANDARD 11)

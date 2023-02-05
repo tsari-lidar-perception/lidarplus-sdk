@@ -59,19 +59,21 @@ py::dict getPklData(std::string fliename)
     return data;
 }
 
-pcl::PointCloud<pcl::PointXYZI> toPclPointCloud(py::array_t<float> input)
+pcl::PointCloud<pcl::PointXYZI>::Ptr toPclPointCloud(const py::array_t<float> &input)
 {
     auto ref_input = input.unchecked<2>();
+    auto point_num = ref_input.shape(0);
 
-    pcl::PointCloud<pcl::PointXYZI> cloud;
-    for (int i = 0; i < ref_input.shape(0); i++)
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZI>());
+    cloud->width = static_cast<int>(point_num);
+    cloud->height = 1;
+    cloud->points.resize(point_num);
+    for (int i = 0; i < point_num; i++)
     {
-        pcl::PointXYZI point;
-        point.x = ref_input(i, 0);
-        point.y = ref_input(i, 1);
-        point.z = ref_input(i, 2);
-        point.intensity = ref_input(i, 3) * 255.0f;
-        cloud.push_back(point);
+        cloud->points[i].x = ref_input(i, 0);
+        cloud->points[i].y = ref_input(i, 1);
+        cloud->points[i].z = ref_input(i, 2);
+        cloud->points[i].intensity = ref_input(i, 3) * 255.0f;
     }
     return cloud;
 }

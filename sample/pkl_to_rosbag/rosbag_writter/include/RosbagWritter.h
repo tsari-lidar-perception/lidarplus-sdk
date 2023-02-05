@@ -35,9 +35,11 @@ public:
   RosbagWritter(std::string file);
   virtual ~RosbagWritter();
   void writeScan(std::string topic, const std::string frame, uint64_t timestamp,
-                 pcl::PointCloud<pcl::PointXYZI> input);
+                 pcl::PointCloud<pcl::PointXYZI>::Ptr input);
   void writeImage(std::string topic, const std::string frame, uint64_t timestamp,
                   cv::Mat input);
+  void writeCompressedImage(std::string topic, const std::string frame, uint64_t timestamp,
+                            cv::Mat input);
   void writeImu(std::string topic, const std::string frame, Imu_t &imu);
 
 private:

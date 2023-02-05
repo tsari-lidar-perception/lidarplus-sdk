@@ -93,11 +93,12 @@ int main(int argc, char *argv[])
     auto file_path = input_p + c;
     py::dict data_dict = getPklData(file_path);
 
+    // Lidar data
     for (auto it : data_dict["points"].attr("keys")())
     {
       std::string lidarname = it.cast<std::string>();
       py::dict points_obj = data_dict["points"];
-      pcl::PointCloud<pcl::PointXYZI> points_cloud = toPclPointCloud(points_obj[lidarname.c_str()].cast<py::array_t<float>>());
+      pcl::PointCloud<pcl::PointXYZI>::Ptr points_cloud = toPclPointCloud(points_obj[lidarname.c_str()].cast<py::array_t<float>>());
 
       int pos = 0;
       lidarname = "lidar" + lidarname;
@@ -108,19 +109,21 @@ int main(int argc, char *argv[])
       wbag.writeScan(lidarname, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), points_cloud);
     }
 
+    // Camera data
     for (auto it : data_dict["image"].attr("keys")())
     {
       std::string imagename = it.cast<std::string>();
       py::dict image_obj = data_dict["image"];
       py::bytes image_bytes = image_obj[imagename.c_str()].cast<py::bytes>();
 
-      cv::Mat cvmat_1c = toCvMatImage(image_bytes);
-      cv::Mat image_ = cv::imdecode(cvmat_1c, CV_LOAD_IMAGE_UNCHANGED);
+      cv::Mat image_compressed = toCvMatImage(image_bytes);
+      wbag.writeCompressedImage("image" + imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_compressed);
 
-      imagename = "image" + imagename;
-      wbag.writeImage(imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_);
+      // cv::Mat image_bgr = cv::imdecode(image_compressed, CV_LOAD_IMAGE_UNCHANGED);
+      // wbag.writeImage("image" + imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_bgr);
     }
 
+    // IMU data
     if (data_dict.contains("imu_data"))
     {
       auto imu_data = data_dict["imu_data"].cast<py::array_t<double>>();

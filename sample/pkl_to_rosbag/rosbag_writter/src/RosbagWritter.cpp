@@ -20,11 +20,10 @@ RosbagWritter::~RosbagWritter()
 }
 
 void RosbagWritter::writeScan(std::string topic, const std::string frame, uint64_t timestamp,
-                              pcl::PointCloud<pcl::PointXYZI> input)
+                              pcl::PointCloud<pcl::PointXYZI>::Ptr input)
 {
   sensor_msgs::PointCloud2 cloudMsg;
-  pcl::PointCloud<pcl::PointXYZI> cloudPcl = input;
-  pcl::toROSMsg(cloudPcl, cloudMsg);
+  pcl::toROSMsg(*input, cloudMsg);
   cloudMsg.header.stamp.sec = timestamp / 1000000;
   cloudMsg.header.stamp.nsec = (timestamp % 1000000) * 1000;
   cloudMsg.header.frame_id = frame;
@@ -48,6 +47,25 @@ void RosbagWritter::writeImage(std::string topic, const std::string frame, uint6
 
   sensor_msgs::Image im;
   cvi.toImageMsg(im);
+  ros::Time topicTime;
+  topicTime.sec = timestamp / 1000000;
+  topicTime.nsec = (timestamp % 1000000) * 1000;
+  auto mBagPtr = (rosbag::Bag *)mBag;
+  mBagPtr->write(topic, topicTime, im);
+}
+
+void RosbagWritter::writeCompressedImage(std::string topic, const std::string frame, uint64_t timestamp,
+                                         cv::Mat input)
+{
+  sensor_msgs::CompressedImage im;
+  im.header.stamp.sec = timestamp / 1000000;
+  im.header.stamp.nsec = (timestamp % 1000000) * 1000;
+  im.header.frame_id = frame;
+  im.format = "jpeg";
+
+  size_t size = input.cols * input.rows * input.elemSize();
+  im.data.resize(size);
+  memcpy(reinterpret_cast<char *>(&im.data[0]), input.data, size);
   ros::Time topicTime;
   topicTime.sec = timestamp / 1000000;
   topicTime.nsec = (timestamp % 1000000) * 1000;
