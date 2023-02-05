@@ -3,7 +3,9 @@
 #include <pcl_ros/point_cloud.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <cv_bridge/cv_bridge.h>
+#include <std_msgs/UInt64.h>
 #include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/NavSatFix.h>
 #include <sensor_msgs/Imu.h>
 #include <rosbag/bag.h>
 
@@ -89,4 +91,32 @@ void RosbagWritter::writeImu(std::string topic, const std::string frame, Imu_t &
   imuMsg.linear_acceleration.z = imu.acc_z;
   auto mBagPtr = (rosbag::Bag *)mBag;
   mBagPtr->write(topic, topicTime, imuMsg);
+}
+
+void RosbagWritter::writeIns(std::string topic, const std::string frame, Ins_t &ins)
+{
+  sensor_msgs::NavSatFix insMsg;
+  ros::Time topicTime;
+  topicTime.sec = ins.timestamp / 1000000;
+  topicTime.nsec = (ins.timestamp % 1000000) * 1000;
+
+  insMsg.header.stamp = topicTime;
+  insMsg.latitude = ins.latitude;
+  insMsg.longitude = ins.longitude;
+  insMsg.altitude = ins.altitude;
+  insMsg.status.status = ins.status;
+  auto mBagPtr = (rosbag::Bag *)mBag;
+  mBagPtr->write(topic, topicTime, insMsg);
+}
+
+void RosbagWritter::writeTimeStamp(std::string topic, uint64_t timestamp, uint64_t data)
+{
+  std_msgs::UInt64 stdMsg;
+  ros::Time topicTime;
+  topicTime.sec = timestamp / 1000000;
+  topicTime.nsec = (timestamp % 1000000) * 1000;
+
+  stdMsg.data = data;
+  auto mBagPtr = (rosbag::Bag *)mBag;
+  mBagPtr->write(topic, topicTime, stdMsg);
 }

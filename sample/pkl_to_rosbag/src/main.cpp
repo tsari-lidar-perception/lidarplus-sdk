@@ -93,6 +93,11 @@ int main(int argc, char *argv[])
     auto file_path = input_p + c;
     py::dict data_dict = getPklData(file_path);
 
+    // TimeStamp
+    uint64_t timestamp = data_dict["frame_start_timestamp"].cast<uint64_t>();
+    wbag.writeTimeStamp("frame_start_timestamp", timestamp, timestamp);
+    wbag.writeTimeStamp("timestep", timestamp, data_dict["timestep"].cast<uint64_t>());
+
     // Lidar data
     for (auto it : data_dict["points"].attr("keys")())
     {
@@ -106,7 +111,7 @@ int main(int argc, char *argv[])
       {
         lidarname.erase(pos, 1);
       }
-      wbag.writeScan(lidarname, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), points_cloud);
+      wbag.writeScan(lidarname, "base_link", timestamp, points_cloud);
     }
 
     // Camera data
@@ -117,10 +122,24 @@ int main(int argc, char *argv[])
       py::bytes image_bytes = image_obj[imagename.c_str()].cast<py::bytes>();
 
       cv::Mat image_compressed = toCvMatImage(image_bytes);
-      wbag.writeCompressedImage("image" + imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_compressed);
+      wbag.writeCompressedImage("image" + imagename, "base_link", timestamp, image_compressed);
 
       // cv::Mat image_bgr = cv::imdecode(image_compressed, CV_LOAD_IMAGE_UNCHANGED);
-      // wbag.writeImage("image" + imagename, "base_link", data_dict["frame_start_timestamp"].cast<uint64_t>(), image_bgr);
+      // wbag.writeImage("image" + imagename, "base_link", timestamp, image_bgr);
+    }
+
+    // INS data
+    if (data_dict.contains("ins_data") && data_dict["ins_valid"].cast<bool>())
+    {
+      Ins_t ins = toIns(data_dict["ins_data"]);
+      wbag.writeIns("ins_raw", "base_link", ins);
+    }
+
+    // SLAM Localization data
+    if (data_dict.contains("pose") && data_dict["slam_valid"].cast<bool>())
+    {
+      Ins_t ins = toIns(data_dict["pose"]);
+      wbag.writeIns("localization", "base_link", ins);
     }
 
     // IMU data

@@ -20,6 +20,8 @@ namespace py = pybind11;
 #include <algorithm>
 #include <iostream>
 
+#include "Types.h"
+
 std::vector<std::string> getFiles(std::string src_dir);
 
 py::dict getPklData(std::string fliename);
@@ -27,5 +29,7 @@ py::dict getPklData(std::string fliename);
 pcl::PointCloud<pcl::PointXYZI>::Ptr toPclPointCloud(const pybind11::array_t<float> &input);
 
 cv::Mat toCvMatImage(py::bytes input);
+
+Ins_t toIns(py::dict input);
 
 #endif //__GET_PKL_DATA___H
