@@ -1,5 +1,12 @@
 # pkl_to_rosbag
 
+## Requirement
+```
+ros-melodic-desktop-full
+python3.6+
+numpy in python3.6+ and python2.7
+```
+
 ## Build
 
 ```shell
@@ -63,4 +70,13 @@ Specify the output name
 ```
 ~/Desktop/pkl_to_rosbag -i ~/Desktop/test/ -o ~/Desktop/rosbag.bag
 ```
+
+## FAQ
+1. cmake and make error:
+
+    Ensure that required dependencies are installed correctly and environment variables are configured correctly.
+
+2. App can't find numpy when using:
+
+    Confirm that python2.7 has numpy installed.
 
