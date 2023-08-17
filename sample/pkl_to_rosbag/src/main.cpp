@@ -17,7 +17,7 @@
 namespace py = pybind11;
 
 #define PBSTR "||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"
-#define PBWIDTH 120
+#define PBWIDTH 80
 
 void printProgress(double percentage)
 {

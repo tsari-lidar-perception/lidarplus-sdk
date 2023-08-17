@@ -100,7 +100,11 @@ Ins_t toIns(py::dict input)
     ins.latitude = input["latitude"].cast<double>();
     ins.longitude = input["longitude"].cast<double>();
     ins.altitude = input["altitude"].cast<double>();
-    ins.status = input["Status"].cast<int>();
+    if (input.contains("status")) {
+        ins.status = input["status"].cast<int>();
+    } else {
+        ins.status = input["Status"].cast<int>();
+    }
     ins.timestamp = input["timestamp"].cast<uint64_t>();
     return ins;
 }
