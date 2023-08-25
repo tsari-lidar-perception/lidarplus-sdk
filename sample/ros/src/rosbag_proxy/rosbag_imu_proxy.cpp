@@ -116,9 +116,9 @@ class rosbag_imu_proxy {
         data.gyro_x = imu->angular_velocity.x / M_PI * 180.0;
         data.gyro_y = imu->angular_velocity.y / M_PI * 180.0;
         data.gyro_z = imu->angular_velocity.z / M_PI * 180.0;
-        data.acc_x = imu->linear_acceleration.x;
-        data.acc_y = imu->linear_acceleration.y;
-        data.acc_z = imu->linear_acceleration.z;
+        data.acc_x = imu->linear_acceleration.x / 9.81;
+        data.acc_y = imu->linear_acceleration.y / 9.81;
+        data.acc_z = imu->linear_acceleration.z / 9.81;
         data.latitude = 0;
         data.longitude = 0;
         data.altitude = 0;
