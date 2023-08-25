@@ -25,6 +25,16 @@ include_directories(
 
 add_subdirectory(network)
 
+add_executable(rosbag_imu_proxy
+  rosbag_imu_proxy.cpp
+)
+add_dependencies(rosbag_imu_proxy ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(rosbag_imu_proxy
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  network_driver
+)
+
 add_executable(rosbag_lidar_proxy
   rosbag_lidar_proxy.cpp
 )

@@ -10,7 +10,9 @@ UDPServer::UDPServer(int port) {
   socket.reset(new ip::udp::socket(io_service, ip::udp::v4()));
   socket->set_option(boost::asio::socket_base::reuse_address(true));
   socket->set_option(boost::asio::socket_base::receive_buffer_size(1*1024*1024));
-  socket->bind(ip::udp::endpoint(ip::udp::v4(), port));
+  if (port > 0) {
+    socket->bind(ip::udp::endpoint(ip::udp::v4(), port));
+  }
 }
 UDPServer::~UDPServer() {}
 

@@ -36,14 +36,14 @@ class rosbag_lidar_proxy {
     rosbag_lidar_proxy() 
     : nh("~"),
       points_topic(nh.param<std::string>("points_topic", "/points")),
-      device_ip(nh.param<std::string>("device_ip", "192.168.1.100")),
+      device_ip(nh.param<std::string>("device_ip", "127.0.0.1")),
       port(nh.param<int>("port", 2688))
     {
         std::cout << std::endl << "========================================" << std::endl;
         std::cout << "Transfer topic: " << points_topic << std::endl;
         std::cout << "Destination lidar plus IP: " << device_ip << std::endl;
         std::cout << "Destination Port: " << port << std::endl;
-        udp_server.reset(new UDPServer(port + 10000));
+        udp_server.reset(new UDPServer());
         frame_id = 0;
         last_frame = 0;
         points_sub = nh.subscribe<sensor_msgs::PointCloud2>(points_topic, 3, &rosbag_lidar_proxy::points_callback, this);

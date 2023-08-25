@@ -18,7 +18,7 @@ class UDPServer {
   /** \brief Constructor
    * \param[in] udp receive port
    */
-  UDPServer(int port);
+  UDPServer(int port = 0);
   ~UDPServer();
 
   /** \brief UDP server receive
