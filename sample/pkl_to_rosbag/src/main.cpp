@@ -122,6 +122,14 @@ int main(int argc, char *argv[])
       py::bytes image_bytes = image_obj[imagename.c_str()].cast<py::bytes>();
 
       cv::Mat image_compressed = toCvMatImage(image_bytes);
+
+      int pos = 0;
+      imagename = "image" + imagename;
+      while (std::string::npos != (pos = imagename.find(":")))
+      {
+        imagename.erase(pos, 1);
+      }
+
       wbag.writeCompressedImage("image" + imagename, "base_link", timestamp, image_compressed);
 
       // cv::Mat image_bgr = cv::imdecode(image_compressed, CV_LOAD_IMAGE_UNCHANGED);
