@@ -7,6 +7,7 @@
 #include "ros/ros.h"
 #include <boost/thread/mutex.hpp>
 #include <sensor_msgs/Imu.h>
+#include <sensor_msgs/NavSatFix.h>
 #include "UDPServer.h"
 
 struct InsDataType {
@@ -86,15 +87,17 @@ std::string formatGPCHC(InsDataType ins) {
 
 class rosbag_imu_proxy {
   public:
-    rosbag_imu_proxy() 
+    rosbag_imu_proxy()
     : nh("~"),
       imu_topic(nh.param<std::string>("imu_topic", "/imu")),
+      gps_topic(nh.param<std::string>("gps_topic", "/gps")),
       device_ip(nh.param<std::string>("device_ip", "127.0.0.1")),
       port(nh.param<int>("port", 9888))
     {
         udp_server.reset(new UDPServer());
         last_frame = 0;
         imu_sub = nh.subscribe(imu_topic, 3, &rosbag_imu_proxy::imu_callback, this);
+        gps_sub = nh.subscribe(gps_topic, 3, &rosbag_imu_proxy::gps_callback, this);
     }
 
     void imu_callback(const sensor_msgs::ImuPtr& data) {
@@ -102,10 +105,17 @@ class rosbag_imu_proxy {
         std::cout << getCurrentTime() << ": Get topic: " << imu_topic <<  std::endl;
         last_msg = data;
         last_frame = getCurrentTime();
-        send_imu(data);
+        send_imu(data, last_gps_msg);
+        // last_gps_msg = nullptr;
     }
 
-    void send_imu(const sensor_msgs::ImuPtr& imu) {
+    void gps_callback(const sensor_msgs::NavSatFixPtr& data) {
+        boost::mutex::scoped_lock lock(send_mutex_);
+        std::cout << getCurrentTime() << ": Get topic: " << gps_topic <<  std::endl;
+        last_gps_msg = data;
+    }
+
+    void send_imu(const sensor_msgs::ImuPtr& imu, const sensor_msgs::NavSatFixPtr& gps) {
         InsDataType data;
         data.header   = "$GPCHC";
         data.gps_week = GPSweek();
@@ -119,16 +129,23 @@ class rosbag_imu_proxy {
         data.acc_x = imu->linear_acceleration.x / 9.81;
         data.acc_y = imu->linear_acceleration.y / 9.81;
         data.acc_z = imu->linear_acceleration.z / 9.81;
-        data.latitude = 0;
-        data.longitude = 0;
-        data.altitude = 0;
+        if (gps != nullptr) {
+          data.latitude = gps->latitude;
+          data.longitude = gps->longitude;
+          data.altitude = gps->altitude;
+          data.Status = 1;
+        } else {
+          data.latitude = 0;
+          data.longitude = 0;
+          data.altitude = 0;
+          data.Status = 0;
+        }
         data.Ve = 0;
         data.Vn = 0;
         data.Vu = 0;
         data.baseline = 00;
         data.NSV1 = 0;
         data.NSV2 = 0;
-        data.Status = 0;
         data.age = 0;
         data.Warnning = 0;
         std::string message = formatGPCHC(data);
@@ -141,7 +158,7 @@ class rosbag_imu_proxy {
         }
         if ( last_frame + uint64_t(max_age * 1000000ull) < getCurrentTime() ) {
             boost::mutex::scoped_lock lock(send_mutex_);
-            send_imu(last_msg);
+            send_imu(last_msg, last_gps_msg);
         }
     }
 
@@ -157,11 +174,14 @@ class rosbag_imu_proxy {
   private:
     ros::NodeHandle nh;
     ros::Subscriber imu_sub;
+    ros::Subscriber gps_sub;
     std::string imu_topic;
+    std::string gps_topic;
     std::string device_ip;
     int port;
     uint64_t last_frame;
     sensor_msgs::ImuPtr last_msg;
+    sensor_msgs::NavSatFixPtr last_gps_msg;
     boost::mutex send_mutex_;
     std::unique_ptr<UDPServer> udp_server;
 };

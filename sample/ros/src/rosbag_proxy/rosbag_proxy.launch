@@ -1,6 +1,7 @@
 <launch>
     <arg name="points_topic" default="/velodyne_points"/>
     <arg name="imu_topic" default="/imu"/>
+    <arg name="gps_topic" default="/gps"/>
     <arg name="device_ip" default="127.0.0.1"/>
     <arg name="port" default="2688"/>
 
@@ -8,6 +9,7 @@
 
     <node pkg="rosbag_proxy" type="rosbag_imu_proxy" name="rosbag_imu_proxy" output="screen">
         <param name="imu_topic" value="$(arg imu_topic)"/>
+        <param name="gps_topic" value="$(arg gps_topic)"/>
         <param name="device_ip" value="$(arg device_ip)"/>
     </node>
 
