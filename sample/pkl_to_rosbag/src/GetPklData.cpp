@@ -108,3 +108,16 @@ Ins_t toIns(py::dict input)
     ins.timestamp = input["timestamp"].cast<uint64_t>();
     return ins;
 }
+
+Imu_t toImu(py::dict input)
+{
+    Imu_t imu;
+    imu.gyro_x = input["gyro_x"].cast<double>() / 180.0 * M_PI;
+    imu.gyro_y = input["gyro_y"].cast<double>() / 180.0 * M_PI;
+    imu.gyro_z = input["gyro_z"].cast<double>() / 180.0 * M_PI;
+    imu.acc_x  = input["acc_x"].cast<double>() * 9.81;
+    imu.acc_y  = input["acc_y"].cast<double>() * 9.81;
+    imu.acc_z  = input["acc_z"].cast<double>() * 9.81;
+    imu.timestamp = input["timestamp"].cast<uint64_t>();
+    return imu;
+}

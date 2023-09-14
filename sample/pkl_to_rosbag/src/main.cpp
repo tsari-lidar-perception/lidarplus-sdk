@@ -68,6 +68,10 @@ int main(int argc, char *argv[])
     }
   }
 
+  if (input_p.length() > 0 && input_p.back() != '/')
+  {
+    input_p = input_p + '/';
+  }
   filelists = getFiles(input_p);
   if (filelists.empty())
   {
@@ -140,7 +144,12 @@ int main(int argc, char *argv[])
     if (data_dict.contains("ins_data") && data_dict["ins_valid"].cast<bool>())
     {
       Ins_t ins = toIns(data_dict["ins_data"]);
+      Imu_t imu = toImu(data_dict["ins_data"]);
       wbag.writeIns("ins_raw", "base_link", ins);
+      if (!data_dict.contains("imu_data"))
+      {
+        wbag.writeImu("imu_raw", "base_link", imu);
+      }
     }
 
     // SLAM Localization data
@@ -171,5 +180,6 @@ int main(int argc, char *argv[])
 
     printProgress(double(file_index++) / filelists.size());
   }
+  printf("\nDone, convert %lu pickle files\n", filelists.size());
   return 0;
 }

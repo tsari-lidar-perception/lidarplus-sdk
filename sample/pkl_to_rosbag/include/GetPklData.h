@@ -31,5 +31,6 @@ pcl::PointCloud<pcl::PointXYZI>::Ptr toPclPointCloud(const pybind11::array_t<flo
 cv::Mat toCvMatImage(py::bytes input);
 
 Ins_t toIns(py::dict input);
+Imu_t toImu(py::dict input);
 
 #endif //__GET_PKL_DATA___H
