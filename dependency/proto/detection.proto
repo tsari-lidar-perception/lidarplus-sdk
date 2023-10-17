@@ -60,14 +60,6 @@ message Object {
         STOPPED = 2;
         MOVING = 3;
     };
-    enum SensorType {
-        LIDAR = 0;
-        CAMERA = 1;
-        RADAR = 2;
-        LIDAR_CAMERA = 3;
-        RADAR_CAMERA = 4;
-        LIDAR_RADAR_CAMERA = 5;
-    };
     optional Type  type = 2;
     optional float confidence = 3;          // confidence of the object [0, 1.0]
     optional Box3D box = 4;
@@ -79,7 +71,6 @@ message Object {
     optional Status status = 10;
     optional uint32 age = 11;               // the age of the object (in frames). This value starts at 1 when the obstacle is first detected, and increments in 1 each frame. (1 ~ 255)
     repeated Trajectory trajectory = 12;    // prediction trajectory of object
-    optional SensorType sensor = 13;        // sensors are used to detect the objects
 }
 
 message FreespaceInfo {
